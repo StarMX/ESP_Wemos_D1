@@ -25,8 +25,8 @@ void weatherAPI()
     http.setUserAgent("esp8266");
     //http.addHeader("U-ApiKey",UKey, true);
     int httpCode = http.GET(); //http.POST("{\"value\":" + data + "}");
-    Serial.print("code:");
-    Serial.println(httpCode);
+    // Serial.print("code:");
+    // Serial.println(httpCode);
     if (httpCode == 200)
     {
       DynamicJsonDocument doc(500);
@@ -40,7 +40,7 @@ void weatherAPI()
       JsonObject root = doc.as<JsonObject>();
       if (doc.isNull() == false)
       {
-        Serial.println(root);
+        // Serial.println(root);
         weatheValues.City = root["city"].as<String>();
       }
     }
@@ -74,9 +74,9 @@ void weatherAPI()
         weatheValues.Temperature = root["results"][0]["now"]["temperature"].as<String>() + "°C";
         weatheValues.Code = root["results"][0]["now"]["code"].as<String>();
         weatheValues.Text = root["results"][0]["now"]["text"].as<String>();
-        Serial.println(weatheValues.Temperature);
-        Serial.println(weatheValues.Text);
-        Serial.println(weatheValues.Code);
+        // Serial.println(weatheValues.Temperature);
+        // Serial.println(weatheValues.Text);
+        // Serial.println(weatheValues.Code);
       }
     }
     else
@@ -112,8 +112,8 @@ void bilibili()
     http.begin("http://api.bilibili.com/x/relation/stat?vmid=" + String(vmid));
     http.setUserAgent("esp8266");
     int httpCode = http.GET();
-    Serial.print("code:");
-    Serial.println(httpCode);
+    // Serial.print("code:");
+    // Serial.println(httpCode);
     if (httpCode == 200)
     {
       DynamicJsonDocument doc(500);
@@ -127,7 +127,7 @@ void bilibili()
       JsonObject root = doc.as<JsonObject>();
       if (doc.isNull() == false)
       {
-        Serial.println(root);
+        // Serial.println(root);
         bilibiliValues.Following = root["data"]["following"].as<String>();
         bilibiliValues.Whisper = root["data"]["whisper"].as<String>();
         bilibiliValues.Black = root["data"]["black"].as<String>();

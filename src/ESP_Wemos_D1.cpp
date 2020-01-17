@@ -1,8 +1,6 @@
 #include <ArduinoJson.h>
 
 #include "config.h"
-
-#include "blink.h"
 #include "Oled.h"
 #include "wifi.h"
 #include "ntp.h"
@@ -54,7 +52,6 @@ void oled(){
 
 void setup() {
   Serial.begin(115200);
-  setupBlink();
   setupOled();
   setupWifi(String(deviceId));
   setupNTP();
@@ -69,7 +66,6 @@ void setup() {
 
 void loop() {
   loopWifi();
-  
 #ifdef NTP
   loopNTP();
   getNTPTimeValues();
@@ -87,9 +83,9 @@ void loop() {
   oled();
 #ifdef BATTERY
   BatteryLevel batteryLevel=measureBatteryLevel();
-  Serial.println(batteryLevel.level);
-  Serial.println(batteryLevel.isCharging);
-  Serial.println(batteryLevel.realVoltage);
+  // Serial.println(batteryLevel.level);
+  // Serial.println(batteryLevel.isCharging);
+  // Serial.println(batteryLevel.realVoltage);
 #endif
   sendOled();
   //delay(loopDelaySeconds);

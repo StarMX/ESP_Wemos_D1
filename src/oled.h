@@ -16,7 +16,7 @@ void setupOled()
   u8g2.drawStr(2, 46, "Powered by StarZ");
 
   u8g2.sendBuffer();
-  delay(1000);
+  // delay(1000);
 }
 
 void clearOled()
