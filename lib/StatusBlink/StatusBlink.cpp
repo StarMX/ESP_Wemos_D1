@@ -1,18 +1,15 @@
 
 
-int m_onForTime = 0;
-int m_offForTime = 0;
-unsigned long m_blinkTime = 0;
-short m_blinkState = 0;
-short m_work = 0;
+#include <Arduino.h>
+#include "StatusBlink.h"
 
-
-void setupBlink()
+void StatusBlink::setupBlink(short pin)
 {
+    pinLedStatus = pin;
     pinMode(pinLedStatus, OUTPUT);
 }
 
-void loopBlink()
+void StatusBlink::loopBlink()
 {
   if (m_work==0) {
     digitalWrite(pinLedStatus, HIGH);
@@ -29,12 +26,11 @@ void loopBlink()
     digitalWrite(pinLedStatus, m_blinkState);
 }
 
-
-void OffBlink(){
+void StatusBlink::OffBlink(){
    m_work = 0;
 }
 
-void setBlink(int on_for, int off_for)
+void StatusBlink::setBlink(int on_for, int off_for)
 {
   m_onForTime = on_for;
   m_offForTime = off_for;
