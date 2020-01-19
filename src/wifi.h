@@ -1,51 +1,30 @@
-#include <ESP8266mDNS.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <WiFiUdp.h>
+
+#include <wifi_provisioning.h>
 #include <StatusBlink.h>
 
-int connectInteration = 0;
-int connectInterationMaximum = 12;
 StatusBlink blink;
-void setupWifi(const String deviceId)
+void setupWifi()
 {
+  auto mac = WiFi.macAddress();
+	mac.replace(":", "");
+	mac.toLowerCase();
+  auto instance_name = String(app_name) + "-" + mac;
   blink.setupBlink(pinLedStatus);
+  
+  wifi_provisioning provisioning(instance_name);
+	auto const portal_timeout_milliseconds = (uint)3 * 60 * 1000;
+	if (provisioning.connect() != WL_CONNECTED)
+	{
+		Serial.println("Provisioning...");
+		provisioning.start_portal(ap_password);
+		auto start = millis();
+		while (WiFi.softAPgetStationNum() > 0 || millis() - start < portal_timeout_milliseconds)
+			provisioning.doLoop();
 
-  Serial.println(F("\n▶ WiFi"));
-  Serial.print(F("Connecting to \""));
-  Serial.print(wifiSsid);
-  Serial.println(F("\""));
-  Serial.print("\t\t");
+		Serial.println("Provisioning timeout. Restarting...");
+		ESP.restart();
+	}
 
-  // WiFi.mode(WIFI_STA);
-  WiFi.hostname(deviceId);
-  WiFi.begin(wifiSsid, wifiPassword);
-  blink.setBlink(200, 800); //等待快连LED 闪烁
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    connectInteration++;
-    connectInterationMaximum++;
-    blink.loopBlink();
-    if (connectInteration == 12)
-    {
-      Serial.print(".\n\t\t");
-      connectInteration = 0;
-    }
-    else
-    {
-      Serial.print(F("."));
-    }
-    if (connectInterationMaximum == 12)
-    {
-      byte numSsid = WiFi.scanNetworks();
-      Serial.print("SSID List:\t\t");
-      Serial.println(numSsid);
-      connectInteration = 12;
-      delay(15000);
-      ESP.restart();
-    }
-    delay(300);
-  }
   blink.OffBlink();
 
   Serial.println();
@@ -65,8 +44,7 @@ void setupWifi(const String deviceId)
 
 void loopWifi()
 {
-  wl_status_t wifiStatus = WiFi.status();
-  switch (wifiStatus)
+  switch (WiFi.status())
   {
   case WL_NO_SSID_AVAIL:
     Serial.println("SSID not available");

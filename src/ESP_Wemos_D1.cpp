@@ -53,7 +53,7 @@ void oled(){
 void setup() {
   Serial.begin(115200);
   setupOled();
-  setupWifi(String(deviceId));
+  setupWifi();
   setupNTP();
 
 #ifdef DEEPSLEEP
