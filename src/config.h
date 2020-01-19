@@ -1,7 +1,7 @@
 
 #define pinLedStatus BUILTIN_LED
 #define wifiSsid "MX2017"
-#define wifiPassword "1234567"
+#define wifiPassword "......"
 const uint32_t deviceId = ESP.getChipId();
 
 #define NTP
