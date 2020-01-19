@@ -1,0 +1,24 @@
+
+#define pinLedStatus BUILTIN_LED
+const char app_name[] = "Wemos";
+const char ap_password[] = "1234567890";
+const uint32_t deviceId = ESP.getChipId();
+
+#define NTP
+#ifdef NTP
+const int timeOffsetHours = +8; //ntp timezone
+#endif
+
+#define WEATHER
+
+#define BILIBILI
+#ifdef BILIBILI
+const uint32_t vmid = 0000000; // BILIBILI vmid
+#endif
+
+#define BATTERY
+
+//#define DEEPSLEEP
+#ifdef DEEPSLEEP
+const int loopDelaySeconds = 5 * 60;
+#endif
