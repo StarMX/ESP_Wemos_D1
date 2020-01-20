@@ -16,7 +16,7 @@ const int timeOffsetHours = +8; //ntp timezone
 const uint32_t vmid = 0000000; // BILIBILI vmid
 #endif
 
-#define BATTERY
+//#define BATTERY
 
 //#define DEEPSLEEP
 #ifdef DEEPSLEEP
